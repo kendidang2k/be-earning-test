@@ -1,0 +1,22 @@
+.modal__save__active {
+    bottom: 0 !important;
+}
+
+.modal__save__inactive {
+    bottom: -280px !important;
+    transition-delay: 1s;
+}
+
+.circle__icon {
+    animation: turnAround 4.5s infinite;
+}
+
+@keyframes turnAround {
+    0% {
+        rotate: 0deg;
+    }
+
+    100% {
+        rotate: 360deg;
+    }
+}
