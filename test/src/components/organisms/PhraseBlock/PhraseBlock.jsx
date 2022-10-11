@@ -32,7 +32,7 @@ export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
       {confirmPhrase &&
         confirmPhrase.map((confirmPhraseItem, index) => {
           return (
-            <Box sx={{ padding: "10px 0" }}>
+            <Box sx={{ padding: "10px 0" }} key={index}>
               <ConfirmPhraseItem
                 index={index}
                 confirmPhraseItems={confirmPhraseItem}

@@ -1,8 +1,18 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { StoreContext } from "../../../context/StoreProvider";
 import Button from "../../atoms/Button/Button";
 
 export default function ConfirmPhraseItem({ index, confirmPhraseItems }) {
+  const { confirmArray, setConfirmArray } = useContext(StoreContext);
+  const handleAddToArray = (item) => {
+    if (confirmArray.includes(item)) {
+      confirmArray.slice(confirmArray.indexOf(item));
+    } else {
+      setConfirmArray((confirmArray) => [...confirmArray, item]);
+    }
+  };
+
   return (
     <Grid
       container
@@ -37,19 +47,20 @@ export default function ConfirmPhraseItem({ index, confirmPhraseItems }) {
           {index}
         </Box>
       </Grid>
-      {confirmPhraseItems.data.map((item, index) => {
+      {confirmPhraseItems.data[0].map((item, index) => {
         return (
           <Grid
             item
             xs={3}
             key={index}
+            onClick={() => handleAddToArray(item)}
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Button text={item.name} />
+            <Button text={item} />
           </Grid>
         );
       })}

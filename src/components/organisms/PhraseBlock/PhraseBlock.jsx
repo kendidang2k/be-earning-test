@@ -1,9 +1,23 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { StoreContext } from "../../../context/StoreProvider";
 import Phrase from "../../atoms/Phrase/Phrase";
 import ConfirmPhraseItem from "../../molecules/PhraseItem/ConfirmPhraseItem";
 
 export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
+  const { confirmArray, arrayPhrase } = useContext(StoreContext);
+  const [count, setCount] = useState(0);
+
+  const getValueInArray = () => {
+    confirmArray.forEach((arrayA) => {
+      arrayPhrase.forEach((arrayB) => {
+        if (JSON.stringify(arrayA) == JSON.stringify(arrayB)) {
+          setCount(count++);
+        }
+      });
+    });
+  };
+
   return (
     <Box sx={{ padding: "20px 0" }}>
       <Box
@@ -17,7 +31,7 @@ export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
         <Typography component={"p"} sx={{ fontSize: "17px", color: "#004DFF" }}>
           {title}
         </Typography>
-        {confirmPhrase && <Typography component={"p"}>2/6</Typography>}
+        {confirmPhrase && <Typography component={"p"}>{count}/6</Typography>}
       </Box>
       <Grid container spacing={2} sx={{ padding: "10px 0" }}>
         {pickPhrase &&
@@ -32,9 +46,9 @@ export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
       {confirmPhrase &&
         confirmPhrase.map((confirmPhraseItem, index) => {
           return (
-            <Box sx={{ padding: "10px 0" }}>
+            <Box sx={{ padding: "10px 0" }} key={index}>
               <ConfirmPhraseItem
-                index={index}
+                index={confirmPhraseItem.index}
                 confirmPhraseItems={confirmPhraseItem}
               />
             </Box>

@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import { StoreContext } from "../../../context/StoreProvider";
 import formatJsonData from "../../../functions/formatJsonData";
 import formatJsonDataToConfirm from "../../../functions/formatJsonDataToConfirm";
@@ -12,16 +12,22 @@ import PhraseBlock from "../PhraseBlock/PhraseBlock";
 const errorMessage = "Wrong seed phrases. Please try again!";
 
 export default function ConfirmSeedPhrase() {
-  const jsonData = useGetJsonFile();
-  const phraseData = formatJsonData(jsonData);
-  const confirmData = formatJsonDataToConfirm(phraseData.slice(0, 18));
   const {
     isCopyModalNotiVisible,
     isErrorMessVisible,
     setErrorMessVisible,
     isButtonLoading,
     setIsButtonLoading,
+    isSuccessModalVisible,
+    arrayPhrase,
   } = useContext(StoreContext);
+  const jsonData = useGetJsonFile();
+  const phraseData = formatJsonData(jsonData);
+
+  const confirmData = useMemo(
+    () => formatJsonDataToConfirm(jsonData, phraseData, arrayPhrase),
+    [jsonData]
+  );
 
   const submitPharse = useCallback(() => {
     setIsButtonLoading(true);
@@ -46,6 +52,13 @@ export default function ConfirmSeedPhrase() {
         buttonEvent={submitPharse}
       />
       {isCopyModalNotiVisible && <SavedModal />}
+      {isSuccessModalVisible && (
+        <ActionModal
+          title={"Your wallet has been created!"}
+          buttonAction={"I understand"}
+          isSuccess={true}
+        />
+      )}
     </Box>
   );
 }

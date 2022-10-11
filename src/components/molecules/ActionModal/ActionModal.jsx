@@ -5,10 +5,12 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import successIcon from "../../../assets/images/icons/Vector.png";
 import rightIcon from "../../../assets/images/icons/right.png";
 import { StoreContext } from "../../../context/StoreProvider";
+import "./index.css";
+import CheckBox from "../../atoms/CheckBox/CheckBox";
 
 const modalSuccessContent = [
   {
@@ -31,11 +33,29 @@ export default function ActionModal({
   isSuccess,
   buttonEvent,
 }) {
-  const { isButtonLoading, setIsButtonLoading } = useContext(StoreContext);
+  const { isButtonLoading, isSuccessModalVisible, arrayPhrase } =
+    useContext(StoreContext);
+  console.log(
+    "🚀 ~ file: ActionModal.jsx ~ line 37 ~ arrayPhrase",
+    arrayPhrase.length
+  );
+  const [rules, setRules] = useState([
+    {
+      rule1: true,
+    },
+    {
+      rule2: true,
+    },
+    {
+      rule3: true,
+    },
+  ]);
+
+  const { rule1, rule2, rule3 } = rules;
 
   return (
     <Box
-      className=""
+      className={isSuccessModalVisible ? "modal__success" : ""}
       sx={{
         width: "100%",
         height: "170px",
@@ -48,6 +68,7 @@ export default function ActionModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: "16px 16px 0 0",
       }}
     >
       <Box
@@ -63,26 +84,57 @@ export default function ActionModal({
         {isSuccess ? (
           <Box
             sx={{
+              width: "100%",
+              height: "auto",
+              backgroundColor: "#fff",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <Box component={"img"} src={successIcon} alt="success icon" />
-            <Typography component={"p"}>
-              Your wallet has been created!
+            <Box
+              component={"img"}
+              src={successIcon}
+              alt="success icon"
+              sx={{ marginBottom: "25px" }}
+            />
+            <Typography
+              component={"p"}
+              sx={{
+                fontSize: "22px",
+                fontWeight: "bold",
+                marginBottom: "25px",
+              }}
+            >
+              {title}
             </Typography>
             <Box>
               {modalSuccessContent.map((item, index) => {
                 return (
-                  <Box sx={{ display: "flex" }} key={index}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      marginBottom: "15px",
+                    }}
+                    key={index}
+                  >
                     <Checkbox
-                    // icon={<CircleUnchecked />}
-                    // checkedIcon={<CircleCheckedFilled />}
+                      //   checked={rules[index]}
+                      sx={{ padding: "0 10px" }}
+                      //   name={`rule${index + 1}`}
+                      // icon={<CircleUnchecked />}
+                      // checkedIcon={<CircleCheckedFilled />}
                     />
+                    {/* <CheckBox value={}/> */}
                     <Box>
-                      <Typography component={"p"}>{item.content}</Typography>
+                      <Typography
+                        component={"p"}
+                        sx={{ fontSize: "15px", textAlign: "justify" }}
+                      >
+                        {item.content}
+                      </Typography>
                     </Box>
                   </Box>
                 );
@@ -108,7 +160,7 @@ export default function ActionModal({
           </Box>
         )}
         <ButtonBase
-          disabled={isButtonLoading ? true : false}
+          disabled={isButtonLoading || arrayPhrase.length == 0 ? true : false}
           onClick={buttonEvent}
           sx={{
             width: "100%",

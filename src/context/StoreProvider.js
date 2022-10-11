@@ -9,7 +9,10 @@ export default function StoreProvider({ children }) {
     const [isErrorMessVisible, setErrorMessVisible] = useState(false)
     const [isGenPhraseVisible, setGenPhraseVisible] = useState(true)
     const [isButtonLoading, setIsButtonLoading] = useState(false)
-
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
+    const [arrayPhrase, setArrayPhrase] = useState([])
+    const [confirmArray, setConfirmArray] = useState([])
+    console.log("🚀 ~ file: StoreProvider.js ~ line 15 ~ StoreProvider ~ confirmArray", confirmArray)
 
     return (
         <StoreContext.Provider value={{
@@ -18,7 +21,10 @@ export default function StoreProvider({ children }) {
             isConfirmPhraseVisible, setConfirmPhraseVisible,
             isGenPhraseVisible, setGenPhraseVisible,
             isErrorMessVisible, setErrorMessVisible,
-            isButtonLoading, setIsButtonLoading
+            isButtonLoading, setIsButtonLoading,
+            isSuccessModalVisible, setIsSuccessModalVisible,
+            arrayPhrase, setArrayPhrase,
+            confirmArray, setConfirmArray
         }}>
             {children}
         </StoreContext.Provider>

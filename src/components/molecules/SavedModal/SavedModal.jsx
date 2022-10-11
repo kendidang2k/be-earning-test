@@ -13,10 +13,6 @@ export default function SavedModal() {
 
   useEffect(() => {
     const getCountDown = setInterval(() => {
-      console.log(
-        "🚀 ~ file: SavedModal.jsx ~ line 16 ~ getCountDown ~ countDown",
-        countDown
-      );
       if (countDown == 0) {
         setIsCopyModalNotiVisible(!isCopyModalNotiVisible);
         return;
