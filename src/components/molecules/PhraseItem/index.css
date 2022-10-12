@@ -1,0 +1,9 @@
+.single__radio__button .MuiFormControlLabel-label {
+    padding: 5px 10px;
+    text-transform: capitalize;
+    border-radius: 6px;
+}
+
+.single__radio__button .Mui-checked~.MuiFormControlLabel-label {
+    background-color: #BBCFFB;
+}

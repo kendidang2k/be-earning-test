@@ -3,6 +3,7 @@ import {
   ButtonBase,
   Checkbox,
   CircularProgress,
+  FormControlLabel,
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
@@ -10,7 +11,6 @@ import successIcon from "../../../assets/images/icons/Vector.png";
 import rightIcon from "../../../assets/images/icons/right.png";
 import { StoreContext } from "../../../context/StoreProvider";
 import "./index.css";
-import CheckBox from "../../atoms/CheckBox/CheckBox";
 
 const modalSuccessContent = [
   {
@@ -35,23 +35,12 @@ export default function ActionModal({
 }) {
   const { isButtonLoading, isSuccessModalVisible, arrayPhrase } =
     useContext(StoreContext);
-  console.log(
-    "🚀 ~ file: ActionModal.jsx ~ line 37 ~ arrayPhrase",
-    arrayPhrase.length
-  );
-  const [rules, setRules] = useState([
-    {
-      rule1: true,
-    },
-    {
-      rule2: true,
-    },
-    {
-      rule3: true,
-    },
-  ]);
 
-  const { rule1, rule2, rule3 } = rules;
+  const [rules, setRules] = useState([false, false, false]);
+
+  const handleChange = (index, checked) => {
+    setRules([checked, rules[index]]);
+  };
 
   return (
     <Box
@@ -121,13 +110,12 @@ export default function ActionModal({
                     key={index}
                   >
                     <Checkbox
-                      //   checked={rules[index]}
+                      checked={rules[index]}
+                      onChange={(event) =>
+                        handleChange(index, event.target.checked)
+                      }
                       sx={{ padding: "0 10px" }}
-                      //   name={`rule${index + 1}`}
-                      // icon={<CircleUnchecked />}
-                      // checkedIcon={<CircleCheckedFilled />}
                     />
-                    {/* <CheckBox value={}/> */}
                     <Box>
                       <Typography
                         component={"p"}

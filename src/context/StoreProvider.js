@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import useGetJsonFile from '../hooks/useGetJsonFile';
 
 export const StoreContext = createContext();
 
@@ -12,7 +13,9 @@ export default function StoreProvider({ children }) {
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
     const [arrayPhrase, setArrayPhrase] = useState([])
     const [confirmArray, setConfirmArray] = useState([])
-    console.log("🚀 ~ file: StoreProvider.js ~ line 15 ~ StoreProvider ~ confirmArray", confirmArray)
+    const [correctNumber, setCorrectNumber] = useState(0);
+    const [confirmStatus, setConfirmStatus] = useState(false);
+    const jsonData = useGetJsonFile();
 
     return (
         <StoreContext.Provider value={{
@@ -24,7 +27,10 @@ export default function StoreProvider({ children }) {
             isButtonLoading, setIsButtonLoading,
             isSuccessModalVisible, setIsSuccessModalVisible,
             arrayPhrase, setArrayPhrase,
-            confirmArray, setConfirmArray
+            confirmArray, setConfirmArray,
+            correctNumber, setCorrectNumber,
+            jsonData,
+            confirmStatus, setConfirmStatus
         }}>
             {children}
         </StoreContext.Provider>

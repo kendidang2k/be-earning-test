@@ -3,20 +3,13 @@ import React, { useContext, useState } from "react";
 import { StoreContext } from "../../../context/StoreProvider";
 import Phrase from "../../atoms/Phrase/Phrase";
 import ConfirmPhraseItem from "../../molecules/PhraseItem/ConfirmPhraseItem";
+import "./index.css";
+
+export const DEFAULT_VALUE = 6;
 
 export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
-  const { confirmArray, arrayPhrase } = useContext(StoreContext);
-  const [count, setCount] = useState(0);
-
-  const getValueInArray = () => {
-    confirmArray.forEach((arrayA) => {
-      arrayPhrase.forEach((arrayB) => {
-        if (JSON.stringify(arrayA) == JSON.stringify(arrayB)) {
-          setCount(count++);
-        }
-      });
-    });
-  };
+  const { confirmArray, arrayPhrase, correctNumber, setConfirmStatus } =
+    useContext(StoreContext);
 
   return (
     <Box sx={{ padding: "20px 0" }}>
@@ -31,14 +24,25 @@ export default function PhraseBlock({ title, pickPhrase, confirmPhrase }) {
         <Typography component={"p"} sx={{ fontSize: "17px", color: "#004DFF" }}>
           {title}
         </Typography>
-        {confirmPhrase && <Typography component={"p"}>{count}/6</Typography>}
+        {confirmPhrase && (
+          <Typography
+            component={"p"}
+            sx={{ color: "#f10000" }}
+            className={correctNumber == DEFAULT_VALUE ? "is__correct" : ""}
+          >
+            {correctNumber}/{DEFAULT_VALUE}
+          </Typography>
+        )}
       </Box>
       <Grid container spacing={2} sx={{ padding: "10px 0" }}>
         {pickPhrase &&
           pickPhrase.map((pickPhraseItem, index) => {
             return (
               <Grid item xs={4} key={index}>
-                <Phrase index={index} phraseTitle={pickPhraseItem.name} />
+                <Phrase
+                  index={pickPhraseItem.index}
+                  phraseTitle={pickPhraseItem.name}
+                />
               </Grid>
             );
           })}

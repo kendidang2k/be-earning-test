@@ -1,16 +1,30 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import {
+  Box,
+  FormControlLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
+import React, { useContext, useState } from "react";
 import { StoreContext } from "../../../context/StoreProvider";
 import Button from "../../atoms/Button/Button";
+import "./index.css";
 
 export default function ConfirmPhraseItem({ index, confirmPhraseItems }) {
-  const { confirmArray, setConfirmArray } = useContext(StoreContext);
-  const handleAddToArray = (item) => {
-    if (confirmArray.includes(item)) {
-      confirmArray.slice(confirmArray.indexOf(item));
-    } else {
-      setConfirmArray((confirmArray) => [...confirmArray, item]);
+  const { correctNumber, setCorrectNumber } = useContext(StoreContext);
+  const handleChange = (event) => {
+    console.log("item", event.target.value);
+    console.log("index", index);
+    if (index == event.target.value) {
+      setCorrectNumber(correctNumber + 1);
     }
+
+    // if (confirmArray.includes(item)) {
+    //   setConfirmArray(confirmArray.slice(confirmArray.indexOf(item)));
+    // } else {
+    //   setConfirmArray((confirmArray) => [...confirmArray, item]);
+    // }
   };
 
   return (
@@ -47,23 +61,40 @@ export default function ConfirmPhraseItem({ index, confirmPhraseItems }) {
           {index}
         </Box>
       </Grid>
-      {confirmPhraseItems.data[0].map((item, index) => {
-        return (
-          <Grid
-            item
-            xs={3}
-            key={index}
-            onClick={() => handleAddToArray(item)}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Button text={item} />
+      <Grid item xs={9}>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="female"
+          name="radio-buttons-group"
+          onChange={handleChange}
+        >
+          <Grid container>
+            {confirmPhraseItems.data[0].map((item, index) => {
+              return (
+                <Grid
+                  className="single__radio__button"
+                  item
+                  xs={4}
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FormControlLabel
+                    value={item.index}
+                    control={
+                      <Radio sx={{ visibility: "hidden", display: "none" }} />
+                    }
+                    label={item.name}
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
-        );
-      })}
+        </RadioGroup>
+      </Grid>
     </Grid>
   );
 }

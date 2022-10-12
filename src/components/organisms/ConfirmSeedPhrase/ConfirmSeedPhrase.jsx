@@ -1,13 +1,15 @@
 import { Box } from "@mui/material";
 import React, { useCallback, useContext, useMemo } from "react";
 import { StoreContext } from "../../../context/StoreProvider";
-import formatJsonData from "../../../functions/formatJsonData";
-import formatJsonDataToConfirm from "../../../functions/formatJsonDataToConfirm";
 import useGetJsonFile from "../../../hooks/useGetJsonFile";
+import {
+  formatJsonData,
+  formatJsonDataToConfirm,
+} from "../../../utils/helpers";
 import ErrorNoti from "../../atoms/ErrorNoti/ErrorNoti";
 import ActionModal from "../../molecules/ActionModal/ActionModal";
 import SavedModal from "../../molecules/SavedModal/SavedModal";
-import PhraseBlock from "../PhraseBlock/PhraseBlock";
+import PhraseBlock, { DEFAULT_VALUE } from "../PhraseBlock/PhraseBlock";
 
 const errorMessage = "Wrong seed phrases. Please try again!";
 
@@ -19,23 +21,35 @@ export default function ConfirmSeedPhrase() {
     isButtonLoading,
     setIsButtonLoading,
     isSuccessModalVisible,
+    setIsSuccessModalVisible,
     arrayPhrase,
+    jsonData,
+    confirmStatus,
+    setConfirmStatus,
+    correctNumber,
   } = useContext(StoreContext);
-  const jsonData = useGetJsonFile();
-  const phraseData = formatJsonData(jsonData);
+  // const jsonData = useGetJsonFile();
+  const phraseData = useMemo(() => formatJsonData(jsonData), [jsonData]);
 
   const confirmData = useMemo(
-    () => formatJsonDataToConfirm(jsonData, phraseData, arrayPhrase),
+    () => formatJsonDataToConfirm(phraseData, arrayPhrase),
     [jsonData]
   );
 
-  const submitPharse = useCallback(() => {
+  const submitPharse = () => {
     setIsButtonLoading(true);
-    setTimeout(() => {
-      setErrorMessVisible(true);
-      setIsButtonLoading(false);
-    }, 2000);
-  }, []);
+    if (correctNumber == DEFAULT_VALUE) {
+      setTimeout(() => {
+        setIsSuccessModalVisible(true);
+        setIsButtonLoading(false);
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        setErrorMessVisible(true);
+        setIsButtonLoading(false);
+      }, 2000);
+    }
+  };
 
   return (
     <Box>

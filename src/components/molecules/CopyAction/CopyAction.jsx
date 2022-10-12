@@ -2,8 +2,8 @@ import { Box, ButtonBase, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import copyIcon from "../../../assets/images/icons/copy-icon.png";
 import { StoreContext } from "../../../context/StoreProvider";
-import formatJsonData from "../../../functions/formatJsonData";
 import useGetJsonFile from "../../../hooks/useGetJsonFile";
+import { formatJsonData } from "../../../utils/helpers";
 
 export default function CopyAction() {
   const { isCopyModalNotiVisible, setIsCopyModalNotiVisible, setArrayPhrase } =
