@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 export default function CheckBox({ value }) {
   const [rules, setRules] = useState(false);
-  console.log("🚀 ~ file: CheckBox.jsx ~ line 6 ~ CheckBox ~ rules", rules);
 
   const handleChange = (event) => {
     setRules(event.target.checked);

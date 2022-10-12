@@ -12,6 +12,8 @@ import rightIcon from "../../../assets/images/icons/right.png";
 import { StoreContext } from "../../../context/StoreProvider";
 import "./index.css";
 
+const resiltArray = [true, true, true];
+
 const modalSuccessContent = [
   {
     content:
@@ -35,11 +37,16 @@ export default function ActionModal({
 }) {
   const { isButtonLoading, isSuccessModalVisible, arrayPhrase } =
     useContext(StoreContext);
-
   const [rules, setRules] = useState([false, false, false]);
+  const [isButtonActive, setIsButtonActive] = useState(false);
 
   const handleChange = (index, checked) => {
-    setRules([checked, rules[index]]);
+    const updatedRules = [...rules];
+    updatedRules[index] = checked;
+    setRules(updatedRules);
+    if (JSON.stringify(updatedRules) == JSON.stringify(resiltArray)) {
+      setIsButtonActive(true);
+    }
   };
 
   return (
@@ -148,7 +155,12 @@ export default function ActionModal({
           </Box>
         )}
         <ButtonBase
-          disabled={isButtonLoading || arrayPhrase.length == 0 ? true : false}
+          className={isButtonActive ? "" : "button__inactive"}
+          disabled={
+            isButtonLoading || arrayPhrase.length == 0 || !isButtonActive
+              ? true
+              : false
+          }
           onClick={buttonEvent}
           sx={{
             width: "100%",

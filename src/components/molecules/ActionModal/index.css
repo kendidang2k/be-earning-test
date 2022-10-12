@@ -1,3 +1,7 @@
 .modal__success {
     height: 600px !important;
 }
+
+.button__inactive {
+    background-color: #BBCFFB !important;
+}

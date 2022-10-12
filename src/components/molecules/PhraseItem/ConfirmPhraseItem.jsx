@@ -14,17 +14,9 @@ import "./index.css";
 export default function ConfirmPhraseItem({ index, confirmPhraseItems }) {
   const { correctNumber, setCorrectNumber } = useContext(StoreContext);
   const handleChange = (event) => {
-    console.log("item", event.target.value);
-    console.log("index", index);
     if (index == event.target.value) {
       setCorrectNumber(correctNumber + 1);
     }
-
-    // if (confirmArray.includes(item)) {
-    //   setConfirmArray(confirmArray.slice(confirmArray.indexOf(item)));
-    // } else {
-    //   setConfirmArray((confirmArray) => [...confirmArray, item]);
-    // }
   };
 
   return (
